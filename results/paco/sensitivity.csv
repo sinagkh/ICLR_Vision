@@ -1,0 +1,25 @@
+setting,train_flags_beyond_arm_is,seed,top1_pct,spoof_fpr95_pct,val_top1_pct
+K=0.25,--K 0.25,0,97.695,19.822,97.561
+K=0.25,--K 0.25,1,97.496,23.996,97.991
+K=0.25,--K 0.25,2,97.973,22.707,97.704
+K=0.25,--K 0.25,mean,97.721,22.175,97.752
+K=0.5 (reported IS),,0,97.536,20.036,97.704
+K=0.5 (reported IS),,1,97.496,24.473,97.848
+K=0.5 (reported IS),,2,97.933,22.146,97.848
+K=0.5 (reported IS),,mean,97.655,22.219,97.8
+K=1,--K 1.0,0,97.576,18.107,97.561
+K=1,--K 1.0,1,97.496,23.416,97.848
+K=1,--K 1.0,2,98.211,20.779,97.991
+K=1,--K 1.0,mean,97.761,20.767,97.8
+K=2,--K 2.0,0,97.536,16.698,97.418
+K=2,--K 2.0,1,97.417,22.379,97.848
+K=2,--K 2.0,2,98.013,20.807,97.704
+K=2,--K 2.0,mean,97.655,19.961,97.657
+guard weights x0.5,--lambda-order 0.01 --lambda-wrong 0.005 --lambda-stab 0.0025,0,97.615,18.672,97.418
+guard weights x0.5,--lambda-order 0.01 --lambda-wrong 0.005 --lambda-stab 0.0025,1,97.536,23.852,97.848
+guard weights x0.5,--lambda-order 0.01 --lambda-wrong 0.005 --lambda-stab 0.0025,2,98.013,21.105,97.848
+guard weights x0.5,--lambda-order 0.01 --lambda-wrong 0.005 --lambda-stab 0.0025,mean,97.721,21.21,97.704
+guard weights x2,--lambda-order 0.04 --lambda-wrong 0.02 --lambda-stab 0.01,0,97.734,19.633,97.561
+guard weights x2,--lambda-order 0.04 --lambda-wrong 0.02 --lambda-stab 0.01,1,97.456,23.768,97.848
+guard weights x2,--lambda-order 0.04 --lambda-wrong 0.02 --lambda-stab 0.01,2,98.013,21.86,97.561
+guard weights x2,--lambda-order 0.04 --lambda-wrong 0.02 --lambda-stab 0.01,mean,97.734,21.753,97.657

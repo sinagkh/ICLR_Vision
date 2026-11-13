@@ -1,0 +1,17 @@
+method,arm,seed,top1_pct,spoof_fpr95_pct,auroc
+ERM,erm,0,98.927,22.749,0.932679
+ERM,erm,1,98.847,21.297,0.929812
+ERM,erm,2,99.006,20.647,0.937196
+ERM,erm,mean,98.927,21.565,0.933229
+Plain fine-tuning,ce_only,0,98.927,23.924,0.922747
+Plain fine-tuning,ce_only,1,98.887,24.854,0.923455
+Plain fine-tuning,ce_only,2,98.927,22.583,0.934307
+Plain fine-tuning,ce_only,mean,98.914,23.787,0.926836
+IS without the synergy target,notarget,0,98.768,12.621,0.972535
+IS without the synergy target,notarget,1,98.728,12.935,0.973112
+IS without the synergy target,notarget,2,98.967,15.27,0.973027
+IS without the synergy target,notarget,mean,98.821,13.609,0.972892
+IS,is,0,98.609,4.543,0.98165
+IS,is,1,98.132,8.213,0.979714
+IS,is,2,98.688,4.276,0.983818
+IS,is,mean,98.476,5.678,0.981727

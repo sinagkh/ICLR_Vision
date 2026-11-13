@@ -1,0 +1,13 @@
+model,seed,corrupted_bg_gap
+ERM,1,26.8554
+ERM,21,24.7843
+ERM,42,24.2435
+ERM,mean,25.2944
+IS,1,18.4156
+IS,21,15.9533
+IS,42,16.7300
+IS,mean,17.0329
+CF-Aug (last 20 epochs; stand-alone trainer),1,22.7879
+CF-Aug (last 20 epochs; stand-alone trainer),21,18.6400
+CF-Aug (last 20 epochs; stand-alone trainer),42,17.1787
+CF-Aug (last 20 epochs; stand-alone trainer),mean,19.5355

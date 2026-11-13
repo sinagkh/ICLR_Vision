@@ -1,0 +1,319 @@
+diff --git a/create_datasets/urbancars/gen_urbancars.py b/create_datasets/urbancars/gen_urbancars.py
+index f25b1ff..368aee2 100644
+--- a/create_datasets/urbancars/gen_urbancars.py
++++ b/create_datasets/urbancars/gen_urbancars.py
+@@ -265,7 +265,10 @@ class UrbanCarsDataGen:
+         num_generated_img = len(
+             glob.glob(os.path.join(composition_dir_path, "*.jpg"))
+         )
+-        if num_generated_img >= num_img:
++        num_generated_bg_source = len(
++            glob.glob(os.path.join(composition_dir_path, "*_bg_source.png"))
++        )
++        if num_generated_img >= num_img and num_generated_bg_source >= num_img:
+             return
+ 
+         obj_loader = self.obj_cat_name_to_iter_loader[obj_name]
+@@ -292,6 +295,18 @@ class UrbanCarsDataGen:
+ 
+             bg_image = next(bg_loader)
+             bg_image.squeeze_(0)
++            bg_source_fname = f"{i:03d}_bg_source.png"
++            bg_source_fpath = os.path.join(
++                composition_dir_path, bg_source_fname
++            )
++            if not os.path.exists(bg_source_fpath):
++                save_image(
++                    bg_image,
++                    bg_source_fpath,
++                    nrow=1,
++                    padding=0,
++                    value_range=(0, 1),
++                )
+ 
+             co_occur_image, co_occur_mask = next(co_occur_obj_loader)
+             co_occur_image.squeeze_(0)
+diff --git a/create_datasets/urbancars/predict_car_mask.py b/create_datasets/urbancars/predict_car_mask.py
+index 76b0a06..b07638d 100644
+--- a/create_datasets/urbancars/predict_car_mask.py
++++ b/create_datasets/urbancars/predict_car_mask.py
+@@ -8,9 +8,11 @@ LICENSE file in the root directory of this source tree.
+ import torch
+ import argparse
+ import os
++import json
+ import torch.nn.functional as F
+ import cv2
+ import scipy.io as sio
++import numpy as np
+ 
+ 
+ from tqdm import tqdm
+@@ -27,6 +29,57 @@ class MaskPredictor:
+     def __init__(self, args):
+         self.args = args
+ 
++    @staticmethod
++    def _rect_mask(height, width, bbox=None):
++        if bbox is not None:
++            x1, y1, x2, y2 = bbox
++            x1 = max(0, min(int(x1), width - 1))
++            y1 = max(0, min(int(y1), height - 1))
++            x2 = max(x1 + 1, min(int(x2), width - 1))
++            y2 = max(y1 + 1, min(int(y2), height - 1))
++        else:
++            x1 = int(round(0.10 * width))
++            x2 = int(round(0.90 * width))
++            y1 = int(round(0.20 * height))
++            y2 = int(round(0.82 * height))
++            x2 = max(x1 + 1, min(x2, width - 1))
++            y2 = max(y1 + 1, min(y2, height - 1))
++        mask = np.zeros((height, width), dtype=np.uint8)
++        mask[y1 : y2 + 1, x1 : x2 + 1] = 255
++        return mask, (x1, y1, x2 - x1, y2 - y1)
++
++    @classmethod
++    def _fallback_mask(cls, img_bgr, bbox=None):
++        height, width = img_bgr.shape[:2]
++        rect_mask, rect = cls._rect_mask(height, width, bbox=bbox)
++
++        # Try GrabCut first; if it fails or collapses, fall back to the rectangle mask.
++        try:
++            gc_mask = np.zeros((height, width), np.uint8)
++            bgd_model = np.zeros((1, 65), np.float64)
++            fgd_model = np.zeros((1, 65), np.float64)
++            cv2.grabCut(
++                img_bgr,
++                gc_mask,
++                rect,
++                bgd_model,
++                fgd_model,
++                3,
++                cv2.GC_INIT_WITH_RECT,
++            )
++            binary = np.where(
++                (gc_mask == cv2.GC_FGD) | (gc_mask == cv2.GC_PR_FGD),
++                255,
++                0,
++            ).astype(np.uint8)
++            fg_ratio = float(binary.mean()) / 255.0
++            if 0.01 <= fg_ratio <= 0.95:
++                return binary
++        except Exception:
++            pass
++
++        return rect_mask
++
+     def __call__(self):
+         cfg = get_cfg()
+         add_deeplab_config(cfg)
+@@ -52,14 +105,29 @@ class MaskPredictor:
+         else:
+             _annotations_mat_path = os.path.join(args.root, "cars_test_annos_withlabels.mat")
+ 
+-        samples = [
+-            (
+-                os.path.join(img_root, annotation["fname"]),
+-                # annotation["class"] - 1,  # Original target mapping  starts from 1, hence -1
+-                [annotation["bbox_x1"], annotation["bbox_y1"], annotation["bbox_x2"], annotation["bbox_y2"]],
+-            )
+-            for annotation in sio.loadmat(_annotations_mat_path, squeeze_me=True)["annotations"]
+-        ]
++        if os.path.exists(_annotations_mat_path):
++            samples = [
++                (
++                    os.path.join(img_root, annotation["fname"]),
++                    [annotation["bbox_x1"], annotation["bbox_y1"], annotation["bbox_x2"], annotation["bbox_y2"]],
++                )
++                for annotation in sio.loadmat(_annotations_mat_path, squeeze_me=True)["annotations"]
++            ]
++        else:
++            manifest_path = os.path.join(args.root, f"hf_{args.split}_manifest.jsonl")
++            if not os.path.exists(manifest_path):
++                raise FileNotFoundError(
++                    "Could not find Stanford Cars annotations. "
++                    "Expected original .mat annotations or HF export manifest."
++                )
++            samples = []
++            with open(manifest_path, "r", encoding="utf-8") as handle:
++                for line in handle:
++                    line = line.strip()
++                    if not line:
++                        continue
++                    row = json.loads(line)
++                    samples.append((row["image_path"], None))
+ 
+         for img_fpath, bbox in tqdm(samples):
+             img_fname = os.path.basename(img_fpath)
+@@ -91,10 +159,16 @@ class MaskPredictor:
+             h, w = panoptic_seg.shape[:2]
+             all_one_area = h * w
+ 
+-            x1, y1, x2, y2 = bbox
+-            bbox_mask = torch.zeros((h, w), dtype=torch.long, device=panoptic_seg.device)
+-            bbox_mask[y1: y2 + 1, x1: x2 + 1] = 1
+-            bbox_area = torch.sum(bbox_mask).item()
++            if bbox is not None:
++                x1, y1, x2, y2 = bbox
++                bbox_mask = torch.zeros((h, w), dtype=torch.long, device=panoptic_seg.device)
++                bbox_mask[y1: y2 + 1, x1: x2 + 1] = 1
++                bbox_area = torch.sum(bbox_mask).item()
++            else:
++                bbox_mask = None
++                bbox_area = None
++                image_center_x = w / 2.0
++                image_center_y = h / 2.0
+ 
+             for pred in pred_list:
+                 id = pred["id"]
+@@ -107,20 +181,33 @@ class MaskPredictor:
+                 if area == all_one_area:
+                     continue
+ 
+-                intersection = (cur_id_mask * bbox_mask).sum().item()
+-                union = area + bbox_area - intersection
+-                iou = intersection / (union + 1e-6)
++                if bbox_mask is not None and bbox_area is not None:
++                    intersection = (cur_id_mask * bbox_mask).sum().item()
++                    union = area + bbox_area - intersection
++                    iou = intersection / (union + 1e-6)
++                else:
++                    ys, xs = torch.where(cur_id_mask)
++                    if len(xs) == 0:
++                        continue
++                    centroid_x = xs.float().mean().item()
++                    centroid_y = ys.float().mean().item()
++                    center_dist = ((centroid_x - image_center_x) ** 2 + (centroid_y - image_center_y) ** 2) ** 0.5
++                    normalized_center_score = 1.0 - (center_dist / ((h ** 2 + w ** 2) ** 0.5 + 1e-6))
++                    normalized_area = area / float(max(all_one_area, 1))
++                    iou = normalized_area + 0.5 * normalized_center_score
+ 
+                 if iou > max_iou:
+                     max_iou = iou
+                     max_iou_id = id
+ 
+             if max_iou_id is None:
++                fallback = self._fallback_mask(img, bbox=bbox)
++                cv2.imwrite(mask_fpath, fallback)
+                 continue
+ 
+             final_seg = (panoptic_seg == max_iou_id).long()
+-            np_mask = final_seg.cpu().numpy()
+-            cv2.imwrite(mask_fpath, np_mask * 255)
++            np_mask = final_seg.cpu().numpy().astype(np.uint8) * 255
++            cv2.imwrite(mask_fpath, np_mask)
+ 
+ 
+ def arg_parse():
+diff --git a/create_datasets/urbancars/src_dataset/stanford_cars.py b/create_datasets/urbancars/src_dataset/stanford_cars.py
+index ba382bb..46a7ce2 100644
+--- a/create_datasets/urbancars/src_dataset/stanford_cars.py
++++ b/create_datasets/urbancars/src_dataset/stanford_cars.py
+@@ -72,6 +72,9 @@ class StanfordCars(VisionDataset):
+         self._split = split
+         self._base_folder = pathlib.Path(root) / "stanford_cars"
+         devkit = self._base_folder / "devkit"
++        generated_filter_path = self._base_folder / "filters" / f"{split}_all.txt"
++        generated_manifest_path = self._base_folder / f"hf_{split}_manifest.jsonl"
++        generated_class_names_path = self._base_folder / "class_names.json"
+ 
+         if self._split == "train":
+             self._annotations_mat_path = devkit / "cars_train_annos.mat"
+@@ -86,9 +89,12 @@ class StanfordCars(VisionDataset):
+             root, self.mask_base_folder, f"cars_{split}"
+         )
+ 
+-        with open(
+-            os.path.join(self.filter_objs_metadata_base_folder, f"{split}.txt")
+-        ) as f:
++        filter_path = (
++            generated_filter_path
++            if generated_filter_path.exists()
++            else pathlib.Path(self.filter_objs_metadata_base_folder) / f"{split}.txt"
++        )
++        with open(filter_path) as f:
+             filtered_filename_list = f.read().splitlines()
+ 
+         filtered_filename_set = set(filtered_filename_list)
+@@ -100,29 +106,59 @@ class StanfordCars(VisionDataset):
+         ) as f:
+             urban_or_country_list = json.load(f)
+ 
+-        self._samples = [
+-            (
+-                str(self._images_base_path / annotation["fname"]),
+-                annotation["class"]
+-                - 1,  # Original target mapping  starts from 1, hence -1
+-                [
+-                    annotation["bbox_x1"],
+-                    annotation["bbox_y1"],
+-                    annotation["bbox_x2"],
+-                    annotation["bbox_y2"],
+-                ],
++        if self._annotations_mat_path.exists():
++            self._samples = [
++                (
++                    str(self._images_base_path / annotation["fname"]),
++                    annotation["class"]
++                    - 1,  # Original target mapping starts from 1, hence -1
++                    [
++                        annotation["bbox_x1"],
++                        annotation["bbox_y1"],
++                        annotation["bbox_x2"],
++                        annotation["bbox_y2"],
++                    ],
++                )
++                for annotation in sio.loadmat(
++                    self._annotations_mat_path, squeeze_me=True
++                )["annotations"]
++                if annotation["fname"] in filtered_filename_set
++                and urban_or_country_list[annotation["class"] - 1]
++                == urban_or_country
++            ]
++        elif generated_manifest_path.exists():
++            manifest_rows = [
++                json.loads(line)
++                for line in generated_manifest_path.read_text(encoding="utf-8").splitlines()
++                if line.strip()
++            ]
++            self._samples = [
++                (
++                    str(row["image_path"]),
++                    int(row["label"]),
++                    [0, 0, int(row["width"]) - 1, int(row["height"]) - 1],
++                )
++                for row in manifest_rows
++                if row["filename"] in filtered_filename_set
++                and urban_or_country_list[int(row["label"])] == urban_or_country
++            ]
++        else:
++            raise RuntimeError(
++                "Stanford Cars annotations were not found. "
++                "Expected original .mat files or hf_{split}_manifest.jsonl."
++            )
++
++        if (devkit / "cars_meta.mat").exists():
++            self.classes = sio.loadmat(
++                str(devkit / "cars_meta.mat"), squeeze_me=True
++            )["class_names"].tolist()
++        elif generated_class_names_path.exists():
++            self.classes = json.loads(generated_class_names_path.read_text(encoding="utf-8"))
++        else:
++            raise RuntimeError(
++                "Stanford Cars class names were not found. "
++                "Expected devkit/cars_meta.mat or class_names.json."
+             )
+-            for annotation in sio.loadmat(
+-                self._annotations_mat_path, squeeze_me=True
+-            )["annotations"]
+-            if annotation["fname"] in filtered_filename_set
+-            and urban_or_country_list[annotation["class"] - 1]
+-            == urban_or_country
+-        ]
+-
+-        self.classes = sio.loadmat(
+-            str(devkit / "cars_meta.mat"), squeeze_me=True
+-        )["class_names"].tolist()
+         self.class_to_idx = {cls: i for i, cls in enumerate(self.classes)}
+         self.return_bbox = return_bbox
+         self.return_image_path = return_image_path

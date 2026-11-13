@@ -1,0 +1,9 @@
+torch==2.3.1
+torchvision==0.18.1
+numpy==2.2.*
+pillow
+scipy==1.15.*
+scikit-learn==1.7.*
+pycocotools==2.0.*
+# configs/mae_vit.sh also needs timm; it was run with torch 2.5.1, torchvision 0.20.1 and timm 1.0.20
+timm==1.0.20

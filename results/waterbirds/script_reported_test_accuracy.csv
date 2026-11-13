@@ -1,0 +1,21 @@
+model,seed,evaluated_by,wga,test_acc
+Full CF-Aug,1,train/train_cfaug_full.py test evaluation,92.6829,95.8405
+Full CF-Aug,21,train/train_cfaug_full.py test evaluation,91.9003,96.6690
+Full CF-Aug,42,train/train_cfaug_full.py test evaluation,92.9907,96.8416
+ERM + DFR (Val),1,eval/dfr_official.py (DFR on validation),90.9657,94.4770
+ERM + DFR (Val),21,eval/dfr_official.py (DFR on validation),92.9907,94.8050
+ERM + DFR (Val),42,eval/dfr_official.py (DFR on validation),91.7445,94.2009
+IS + DFR (Val),1,eval/dfr_official.py (DFR on validation),92.2118,95.4436
+IS + DFR (Val),21,eval/dfr_official.py (DFR on validation),93.3022,96.1167
+IS + DFR (Val),42,eval/dfr_official.py (DFR on validation),92.0561,94.8050
+ERM + DFR (Train),1,eval/dfr_official.py (DFR on training subsets),84.4237,91.7501
+ERM + DFR (Train),21,eval/dfr_official.py (DFR on training subsets),87.4501,92.9582
+ERM + DFR (Train),42,eval/dfr_official.py (DFR on training subsets),80.7982,89.7998
+IS + DFR (Train),1,eval/dfr_official.py (DFR on training subsets),88.9408,94.7705
+IS + DFR (Train),21,eval/dfr_official.py (DFR on training subsets),90.9091,94.5116
+IS + DFR (Train),42,eval/dfr_official.py (DFR on training subsets),87.8492,92.6476
+Full CF-Aug,mean,train/train_cfaug_full.py test evaluation,92.5246,96.4504
+ERM + DFR (Val),mean,eval/dfr_official.py (DFR on validation),91.9003,94.4943
+IS + DFR (Val),mean,eval/dfr_official.py (DFR on validation),92.5234,95.4551
+ERM + DFR (Train),mean,eval/dfr_official.py (DFR on training subsets),84.2240,91.5027
+IS + DFR (Train),mean,eval/dfr_official.py (DFR on training subsets),89.2330,93.9765

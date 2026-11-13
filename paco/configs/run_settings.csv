@@ -1,0 +1,43 @@
+method,run,seed,script,arm,epochs,lr,wd,batch,anchors,K,lambda_d2,lambda_order,lambda_wrong,lambda_stab,order_q,warmup_frac,label_weight
+Plain fine-tuning,ce_only,0,train/train.py,ce_only,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Plain fine-tuning,ce_only,1,train/train.py,ce_only,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Plain fine-tuning,ce_only,2,train/train.py,ce_only,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop,partdrop_ft,0,train/train.py,partdrop_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop,partdrop_ft,1,train/train.py,partdrop_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop,partdrop_ft,2,train/train.py,partdrop_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure,oe_ft,0,train/train.py,oe_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure,oe_ft,1,train/train.py,oe_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure,oe_ft,2,train/train.py,oe_ft,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS without the synergy target,notarget,0,train/train.py,notarget,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS without the synergy target,notarget,1,train/train.py,notarget,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS without the synergy target,notarget,2,train/train.py,notarget,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with the sign reversed,redund,0,train/train.py,redund,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with the sign reversed,redund,1,train/train.py,redund,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with the sign reversed,redund,2,train/train.py,redund,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with synergy on random regions,randmask,0,train/train.py,randmask,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with synergy on random regions,randmask,1,train/train.py,randmask,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS with synergy on random regions,randmask,2,train/train.py,randmask,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS,is,0,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS,is,1,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+IS,is,2,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop + IS,partdrop_is,0,train/train_compose.py,partdrop_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop + IS,partdrop_is,1,train/train_compose.py,partdrop_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+PartDrop + IS,partdrop_is,2,train/train_compose.py,partdrop_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure + IS,oe_is,0,train/train_compose.py,oe_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure + IS,oe_is,1,train/train_compose.py,oe_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+Outlier exposure + IS,oe_is,2,train/train_compose.py,oe_is,12,1e-05,0.0001,128,32,0.5,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=0.25",K0p25,0,train/train.py,is,12,1e-05,0.0001,128,32,0.25,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=0.25",K0p25,1,train/train.py,is,12,1e-05,0.0001,128,32,0.25,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=0.25",K0p25,2,train/train.py,is,12,1e-05,0.0001,128,32,0.25,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=1",K1,0,train/train.py,is,12,1e-05,0.0001,128,32,1.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=1",K1,1,train/train.py,is,12,1e-05,0.0001,128,32,1.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=1",K1,2,train/train.py,is,12,1e-05,0.0001,128,32,1.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=2",K2,0,train/train.py,is,12,1e-05,0.0001,128,32,2.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=2",K2,1,train/train.py,is,12,1e-05,0.0001,128,32,2.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, K=2",K2,2,train/train.py,is,12,1e-05,0.0001,128,32,2.0,0.05,0.02,0.01,0.005,0.25,0.2,1.0
+"IS, guard weights x0.5",gHalf,0,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.01,0.005,0.0025,0.25,0.2,1.0
+"IS, guard weights x0.5",gHalf,1,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.01,0.005,0.0025,0.25,0.2,1.0
+"IS, guard weights x0.5",gHalf,2,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.01,0.005,0.0025,0.25,0.2,1.0
+"IS, guard weights x2",gDouble,0,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.04,0.02,0.01,0.25,0.2,1.0
+"IS, guard weights x2",gDouble,1,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.04,0.02,0.01,0.25,0.2,1.0
+"IS, guard weights x2",gDouble,2,train/train.py,is,12,1e-05,0.0001,128,32,0.5,0.05,0.04,0.02,0.01,0.25,0.2,1.0

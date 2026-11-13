@@ -1,0 +1,37 @@
+method,arm,seed,top1_pct,spoof_fpr95_pct,auroc
+Plain fine-tuning,ce_only,0,97.774,32.387,0.923218
+Plain fine-tuning,ce_only,1,97.774,34.657,0.913735
+Plain fine-tuning,ce_only,2,98.291,32.628,0.923775
+Plain fine-tuning,ce_only,mean,97.946,33.224,0.920243
+PartDrop,partdrop_ft,0,97.973,32.145,0.902949
+PartDrop,partdrop_ft,1,97.933,36.468,0.899004
+PartDrop,partdrop_ft,2,98.052,32.201,0.904147
+PartDrop,partdrop_ft,mean,97.986,33.605,0.902033
+PartDrop + IS,partdrop_is,0,98.013,25.079,0.951446
+PartDrop + IS,partdrop_is,1,97.973,28.869,0.946419
+PartDrop + IS,partdrop_is,2,97.893,26.72,0.949759
+PartDrop + IS,partdrop_is,mean,97.96,26.889,0.949208
+Outlier exposure,oe_ft,0,91.017,29.684,0.937389
+Outlier exposure,oe_ft,1,94.833,32.496,0.939846
+Outlier exposure,oe_ft,2,91.017,31.165,0.939951
+Outlier exposure,oe_ft,mean,92.289,31.115,0.939062
+Outlier exposure + IS,oe_is,0,95.906,22.125,0.95924
+Outlier exposure + IS,oe_is,1,96.701,26.688,0.957722
+Outlier exposure + IS,oe_is,2,95.429,22.45,0.961534
+Outlier exposure + IS,oe_is,mean,96.012,23.754,0.959499
+IS without the synergy target,notarget,0,98.172,26.142,0.952738
+IS without the synergy target,notarget,1,97.933,29.073,0.946014
+IS without the synergy target,notarget,2,98.052,26.716,0.94963
+IS without the synergy target,notarget,mean,98.052,27.31,0.949461
+IS with the sign reversed,redund,0,98.291,27.227,0.944279
+IS with the sign reversed,redund,1,97.933,31.065,0.935293
+IS with the sign reversed,redund,2,98.172,28.146,0.941956
+IS with the sign reversed,redund,mean,98.132,28.813,0.94051
+IS with synergy on random regions,randmask,0,97.814,24.923,0.955034
+IS with synergy on random regions,randmask,1,97.655,29.404,0.947512
+IS with synergy on random regions,randmask,2,98.132,28.798,0.94887
+IS with synergy on random regions,randmask,mean,97.867,27.708,0.950472
+IS,is,0,97.536,20.036,0.962648
+IS,is,1,97.496,24.473,0.958514
+IS,is,2,97.933,22.146,0.96008
+IS,is,mean,97.655,22.219,0.960414

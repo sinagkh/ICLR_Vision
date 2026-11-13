@@ -1,0 +1,43 @@
+{
+  "class_names": [
+    "bicycle",
+    "chair",
+    "laptop_computer",
+    "car_(automobile)",
+    "bottle"
+  ],
+  "classes": [
+    {
+      "class_index": 0,
+      "category_id": 94,
+      "name": "bicycle"
+    },
+    {
+      "class_index": 1,
+      "category_id": 232,
+      "name": "chair"
+    },
+    {
+      "class_index": 2,
+      "category_id": 631,
+      "name": "laptop_computer"
+    },
+    {
+      "class_index": 3,
+      "category_id": 207,
+      "name": "car_(automobile)"
+    },
+    {
+      "class_index": 4,
+      "category_id": 133,
+      "name": "bottle"
+    }
+  ],
+  "category_id_to_index": {
+    "94": 0,
+    "232": 1,
+    "631": 2,
+    "207": 3,
+    "133": 4
+  }
+}

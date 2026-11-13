@@ -1,0 +1,5 @@
+method,lambda,seed,iid_acc,ood_acc
+ERM,0.0,7,95.00,5.19
+Steered,0.5,7,75.53,71.36
+Steered,0.7,7,74.30,73.37
+Steered,0.9,7,74.08,73.14

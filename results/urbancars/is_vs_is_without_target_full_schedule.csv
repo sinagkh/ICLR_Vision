@@ -1,0 +1,9 @@
+method,seed,id_accuracy,bg_gap,coobj_gap,bg_coobj_gap
+IS,0,95.05,-4.25,-5.45,-15.05
+IS,1,95.50,-3.90,-4.70,-18.30
+IS,2,94.76,-3.16,-4.36,-16.36
+IS,mean,95.10,-3.77,-4.83,-16.57
+IS without target,0,96.31,-11.11,-4.31,-27.51
+IS without target,1,96.29,-11.09,-4.69,-27.09
+IS without target,2,95.16,-11.96,-2.76,-24.76
+IS without target,mean,95.92,-11.39,-3.92,-26.45

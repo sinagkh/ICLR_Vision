@@ -1,0 +1,6 @@
+model,seed,wga,avg_test_acc,acc_landbird_land,acc_landbird_water,acc_waterbird_land,acc_waterbird_water
+IS (Mask R-CNN masks),1,89.5639,95.7370,99.3792,94.1463,89.5639,94.7040
+IS (Mask R-CNN masks),21,89.4081,95.7370,99.7783,93.6585,89.4081,95.1713
+IS (Mask R-CNN masks),42,89.5639,94.4080,98.8914,91.2195,89.5639,94.7040
+IS (Mask R-CNN masks),mean,89.5119,95.2940,99.3496,93.0081,89.5119,94.8598
+IS (Mask R-CNN masks),sd,0.0899,0.7673,0.4442,1.5681,0.0899,0.2698

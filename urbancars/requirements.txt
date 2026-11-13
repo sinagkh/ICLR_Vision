@@ -1,0 +1,11 @@
+torch==2.3.1
+torchvision==0.18.1
+numpy
+pillow
+tqdm
+# dataset generation only (also install the requirements of the Whac-A-Mole repository)
+datasets
+scipy
+opencv-python
+# detectron2 0.6: install from https://github.com/facebookresearch/detectron2
+# MaskFormer and its weights are downloaded by data/download_source_assets.sh

@@ -1,0 +1,13 @@
+method,arm,seed,fpr95_original_pct,fpr95_harmonized_feathered_pct,fpr95_shifted_pct
+Plain fine-tuning,ce_only,0,32.387,34.361,29.263
+Plain fine-tuning,ce_only,1,34.657,36.951,31.25
+Plain fine-tuning,ce_only,2,32.628,33.687,28.977
+Plain fine-tuning,ce_only,mean,33.224,35.0,29.83
+IS without the synergy target,notarget,0,26.142,30.817,23.849
+IS without the synergy target,notarget,1,29.073,33.934,26.666
+IS without the synergy target,notarget,2,26.716,30.68,24.091
+IS without the synergy target,notarget,mean,27.31,31.81,24.869
+IS,is,0,20.036,25.874,18.429
+IS,is,1,24.473,30.126,22.228
+IS,is,2,22.146,27.728,20.435
+IS,is,mean,22.219,27.909,20.364

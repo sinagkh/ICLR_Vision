@@ -1,0 +1,21 @@
+method,arm,seed,recognized_at_95_threshold_pct
+Plain fine-tuning,ce_only,0,68.773
+Plain fine-tuning,ce_only,1,67.533
+Plain fine-tuning,ce_only,2,69.66
+Plain fine-tuning,ce_only,mean,68.655
+IS without the synergy target,notarget,0,66.874
+IS without the synergy target,notarget,1,65.826
+IS without the synergy target,notarget,2,67.764
+IS without the synergy target,notarget,mean,66.821
+IS,is,0,65.457
+IS,is,1,68.334
+IS,is,2,67.142
+IS,is,mean,66.978
+PartDrop,partdrop_ft,0,68.724
+PartDrop,partdrop_ft,1,69.318
+PartDrop,partdrop_ft,2,70.182
+PartDrop,partdrop_ft,mean,69.408
+PartDrop + IS,partdrop_is,0,68.579
+PartDrop + IS,partdrop_is,1,68.776
+PartDrop + IS,partdrop_is,2,71.061
+PartDrop + IS,partdrop_is,mean,69.472

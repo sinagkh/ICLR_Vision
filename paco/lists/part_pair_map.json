@@ -1,0 +1,148 @@
+{
+  "part_pairs": [
+    {
+      "object_key": "bicycle",
+      "object_category_id": 94,
+      "object_category_name": "bicycle",
+      "part_pair_id": "bicycle:wheelxhandlebar_frame",
+      "part_a_group_name": "wheel",
+      "part_a_part_ids": [
+        2447
+      ],
+      "part_a_part_names": [
+        "bicycle:wheel"
+      ],
+      "part_b_group_name": "handlebar_frame",
+      "part_b_part_ids": [
+        2135,
+        2160,
+        2194,
+        2199,
+        2353,
+        2432
+      ],
+      "part_b_part_names": [
+        "bicycle:down_tube",
+        "bicycle:fork",
+        "bicycle:handlebar",
+        "bicycle:head_tube",
+        "bicycle:seat_tube",
+        "bicycle:top_tube"
+      ]
+    },
+    {
+      "object_key": "chair",
+      "object_category_id": 232,
+      "object_category_name": "chair",
+      "part_pair_id": "chair:seatxback",
+      "part_a_group_name": "seat",
+      "part_a_part_ids": [
+        2348
+      ],
+      "part_a_part_names": [
+        "chair:seat"
+      ],
+      "part_b_group_name": "back",
+      "part_b_part_ids": [
+        2005,
+        2378,
+        2389
+      ],
+      "part_b_part_names": [
+        "chair:back",
+        "chair:spindle",
+        "chair:stile"
+      ]
+    },
+    {
+      "object_key": "laptop",
+      "object_category_id": 631,
+      "object_category_name": "laptop_computer",
+      "part_pair_id": "laptop:screenxkeyboard_body",
+      "part_a_group_name": "screen",
+      "part_a_part_ids": [
+        2344
+      ],
+      "part_a_part_names": [
+        "laptop_computer:screen"
+      ],
+      "part_b_group_name": "keyboard_body",
+      "part_b_part_ids": [
+        2037,
+        2246,
+        2433
+      ],
+      "part_b_part_names": [
+        "laptop_computer:base_panel",
+        "laptop_computer:keyboard",
+        "laptop_computer:touchpad"
+      ]
+    },
+    {
+      "object_key": "car",
+      "object_category_id": 207,
+      "object_category_name": "car_(automobile)",
+      "part_pair_id": "car:wheelxwindow_body",
+      "part_a_group_name": "wheel",
+      "part_a_part_ids": [
+        2323,
+        2384,
+        2444
+      ],
+      "part_a_part_names": [
+        "car_(automobile):rim",
+        "car_(automobile):steeringwheel",
+        "car_(automobile):wheel"
+      ],
+      "part_b_group_name": "window_body",
+      "part_b_part_ids": [
+        2338,
+        2449,
+        2450,
+        2451
+      ],
+      "part_b_part_names": [
+        "car_(automobile):roof",
+        "car_(automobile):window",
+        "car_(automobile):windowpane",
+        "car_(automobile):windshield"
+      ]
+    },
+    {
+      "object_key": "bottle",
+      "object_category_id": 133,
+      "object_category_name": "bottle",
+      "part_pair_id": "bottle:cap_neckxbody",
+      "part_a_group_name": "cap_neck",
+      "part_a_part_ids": [
+        2113,
+        2115,
+        2120,
+        2285,
+        2383,
+        2425
+      ],
+      "part_a_part_names": [
+        "bottle:cap",
+        "bottle:capsule",
+        "bottle:closure",
+        "bottle:neck",
+        "bottle:spout",
+        "bottle:top"
+      ],
+      "part_b_group_name": "body",
+      "part_b_part_ids": [
+        2015,
+        2047,
+        2218,
+        2362
+      ],
+      "part_b_part_names": [
+        "bottle:base",
+        "bottle:body",
+        "bottle:inner_body",
+        "bottle:shoulder"
+      ]
+    }
+  ]
+}
